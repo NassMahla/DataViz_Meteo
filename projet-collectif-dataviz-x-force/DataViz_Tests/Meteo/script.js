@@ -1,100 +1,79 @@
+let lat = 1;
+let lon = 1;
 const API_KEY = "554e3c56cfb28bccd863b1120534404e";
-let city = ""
-let lat = 0
-let lon = 0
 const API_URL_MAIN = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric `;
-const API_GEO_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`;
 
-document.querySelector("#search").addEventListener("click", getWeather);
+// ETAPE 1 : Input
+document.querySelector("#search").addEventListener("click", getWeather());
 
+// ETAPE 2 : Récupérer l'Input
 
+// ETAPE 3 : Transformer ville en coordonnées :
+function getCityToCoords(city) {
+  console.log("#2", lat, lon);
+  const API_GEO_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`;
+  // a- call API
+  return (
+    fetch(API_GEO_URL)
+      // b- PARSE / mettre en forme et trier
+      .then((response) => response.json())
+      .then((data) => {
+        const lat = data[0].lat;
+        const lon = data[0].lon;
+        return { lat, lon };
+      })
+  );
+}
 
-function geoCoding(city) {
-  const API_GEO_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`
-  console.log(city)
-  fetch(API_GEO_URL)
-  .then((response) => response.json())
-  .then((data) => {
-    lat = data[0].lat;
-    lon = data[0].lon;
-    document.querySelector(".meteoBox").innerHTML = `
-    <div>
-    <p>Latitude: ${lat}</p>
-    <p>Longitude: ${lon}</p>   
-    </div>`
-  })
-  .catch(error => {
-    console.error(error);
+//console.log(getCityToCoords("Paris"));
+
+// Fonction pour récupérer les données météo
+// 1) Input récupérer la ville
+// 2) lancer la fonction "getCityCoords"
+// 3) Récupérer les coordonnées
+// 4) Lancer l'API avec les coordonnées
+// 5) Parser les données météo
+// 6) Afficher les données sélectionnées
+
+function getWeather() {
+  let city = document.querySelector("#cityName").value;
+  console.log("#1", lat, lon);
+  getCityToCoords(city).then((data) => {
+    console.log("#5", data);
+    lat = data.lat;
+
+    lon = data.lon;
+    fetch(API_URL_MAIN)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.main.temp);
+        document.querySelector(".meteoBox").innerHTML = `
+        <div>
+        </div>  
+        <div class="cityInfos">
+        <h1>'Test Affichage'</h1>
+        <h1>${data.name}</h1>
+        <p>Température: ${data.main.temp}</p>
+        <p>Humidité: ${data.main.humidity}</p>
+        </div>`;
+      });
   });
 }
 
-
-
-async function getWeather(e) {
-  city = document.querySelector("#cityName").value;
-  await geoCoding(city)
-  console.log(lat)
-  console.log(lon)
-  try {
-    const response = await fetch(API_URL_MAIN);
-    const data = await response.json();
-    console.log(data.main.pressure)
-    console.log(data.main.temp)
-    document.querySelector(".meteoBox").innerHTML = `
-      <div>
-      </div>  
-      <div class="cityInfos">
-      <h1>'Test Affichage'</h1>
-      <h1>${(data.name)}</h1>
-      <p>Température: ${data.main.temp}</p>
-      <p>Humidité: ${data.main.humidity}</p>
-      </div>`;
-  } catch (err) {
-    document.querySelector(".meteoBox").innerHTML = `
-      <h4>City not found 😞</h4>
-      `;
-    console.log("City not found", err);
-  }
-  e.preventDefault();
-}
-
-
-
-// async function getWeather(e) {
-
-//   city = document.querySelector("#cityName").value;
-//   await geoCoding(city)
-
-//   console.log(lat)
-//   console.log(lon)
-
-//   // console.log(fetch(API_URL_MAIN).then((response) => response.json()))
-//   .then(console.log(lat))
-//   .then(console.log(lon))
-
-//   .then(fetch(API_URL_MAIN))
-//   .then((response) => response.json())
-//   .then((data) => {
-//       document.querySelector(".meteoBox").innerHTML = `
-//       <div>
-//       <img
-//       src="${data.sprites.other["official-artwork"].front_default}"
-//       alt="City name"
-//       /> 
-//       </div>  
-//       <div class="cityInfos">
-//       <h1>${capitalizeFirstLetter(data.name)}</h3>
-//       <p>Température: ${data.main.temp}</p>
-//       <p>Humidité: ${data.main.humidity}</p>
-//       </div>`;
-//   })
-//   .catch((err) => {
-//       document.querySelector(".meteoBox").innerHTML = `
-//       <h4>City not found 😞</h4>
-//       `;
-//       console.log("City not found", err);
+// function fetchDeKevin(url) {
+//   return new Promise((resolve, reject) => {
+//     // call API avec url
+//     if (err) return reject(err);
+//     return resolve({
+//         json: function () {/** */}
+//     });
 //   });
-  
-//   e.preventDefault();
 // }
 
+// async function fetchDeKevinBis(url) {
+//   // call API avec url
+//   if (err) return new Error(err);
+//   return resp;
+// }
+
+// fetchDeKevin("http://").then(resp => resp.json())
