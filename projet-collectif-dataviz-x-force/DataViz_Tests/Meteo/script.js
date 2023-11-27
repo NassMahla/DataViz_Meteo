@@ -2,10 +2,22 @@ const API_KEY = "554e3c56cfb28bccd863b1120534404e";
 let CITY = "";
 let lat = 0;
 let lon = 0;
+
+
+document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?landscape`)"
 //const API_URL_MAIN = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 let API_GEO_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${CITY}&limit=1&appid=${API_KEY}`;
 document.querySelector("#search").addEventListener("click", getWeather);
+/*document.querySelector("#search").addEventListener("submit", getWeather);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    console.log('Enter key pressed');
+  }
+})*/
+
 function geoCoding(city) {
+  document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${city})`
+
   API_GEO_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`;
   return fetch(API_GEO_URL)
     .then((response) => response.json())
@@ -23,7 +35,12 @@ function geoCoding(city) {
       console.error(error);
     });
 }
+/*function handle(e) {
+  e.preventDefault()
+  getWeather(); console.log("touche_entrée")
+}*/
 function getWeather(e) {
+
   CITY = document.querySelector("#cityName").value;
   geoCoding(CITY)
     .then(() => {

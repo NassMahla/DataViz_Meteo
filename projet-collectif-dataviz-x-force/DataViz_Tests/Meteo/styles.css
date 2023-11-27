@@ -1,11 +1,15 @@
-* {
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: #0d0e0f;
+  font-family: 'Open Sans', sans-serif;
+  background-image: url('https://source.unsplash.com/1600x900/?landscape');
+  background-size: cover;
+  font-size: 120%;
 }
 
-body,
 input,
 textarea,
 select,
@@ -37,9 +41,9 @@ main {
 }
 
 .searchBox input {
-  border-radius: 8px 0 0 8px;
+  border-radius: 8px 8px 8px 8px;
   border: 0;
-  outline: none;
+
   height: 36px;
   padding: 4px 16px;
   background-color: white;
@@ -47,27 +51,24 @@ main {
 }
 
 .searchBox button {
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px 8px 8px 8px;
   border: 0;
+
   height: 36px;
   padding: 4px 16px;
   background-color: white;
 }
 
-.pokemonBox {
+.meteoBox {
   display: flex;
-  margin-top: 2rem;
   justify-content: center;
-}
-
-.pokemonBox img {
-  width: 200px;
-}
-
-.pokemonBox p {
-  margin-top: 1rem;
-}
-
-.pokemonBox .pokemonInfos {
-  padding: 2rem;
+  align-items: center;
+  border-radius: 12px 12px 12px 12px;
+  border: 0;
+  outline: none;
+  height: fit-content;
+  width: fit-content;
+  padding: 4px 16px;
+  background-color: white;
+  color: #000;
 }
