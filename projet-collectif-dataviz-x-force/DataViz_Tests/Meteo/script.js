@@ -1,8 +1,11 @@
+
+
+
 const API_KEY = "554e3c56cfb28bccd863b1120534404e";
 let CITY = "";
 let lat = 0;
 let lon = 0;
-
+let myChart
 
 document.body.style.backgroundImage = "url('https://source.unsplash.com/1600x900/?landscape`)"
 //const API_URL_MAIN = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
@@ -42,6 +45,8 @@ function geoCoding(city) {
 function getWeather(e) {
 
   CITY = document.querySelector("#cityName").value;
+
+
   geoCoding(CITY)
     .then(() => {
       // Use lat and lon values here
@@ -65,6 +70,35 @@ function getWeather(e) {
           <p>Vent: ${data.wind.speed}</p>
           ${rainCheck}
         </div > `
+
+          let humidity = data.main.humidity
+          let wind = data.wind.speed
+          let temp = data.main.temp_min
+
+          const ctx = document.getElementById('myChart');
+
+          if (myChart) { myChart.destroy() }
+
+          myChart = ctx.innerHTML = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['temp', 'Humidity', 'wind'],
+              datasets: [{
+                label: '# of Votes',
+                data: [temp, humidity, wind],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+
         })
         .catch((err) => {
           document.querySelector(".meteoBox").innerHTML = `
