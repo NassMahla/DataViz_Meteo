@@ -59,30 +59,39 @@ main {
   background-color: white;
 }
 
-.meteoBox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.cityMeteo {
   border-radius: 12px 12px 12px 12px;
-  border: 0;
-  outline: none;
   height: fit-content;
-  width: fit-content;
+  width: 400px;
   padding: 4px 16px;
-  background-color: white;
+  background-color: rgb(255, 255, 255, 0.6);
   color: #000;
 }
 
-.myChart {
+.cityHeader {
+  display: flex;
+  border-radius: 12px 12px 12px 12px;
+  height: fit-content;
+  width: fit-content;
+  padding: 4px 16px;
+  background-color: rgb(255, 255, 255, 0.6);
+  color: #000;
+}
+
+#myChart {
+  color: cornflowerblue;
+  font: 400 1rem "Roboto", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px 12px 12px 12px;
   border: 0;
   outline: none;
-  height: fit-content;
-  width: fit-content;
+  height: 200;
+  width: 200;
   padding: 4px 16px;
-  background-color: white;
-  color: #000;
+  background-color: rgba(237, 227, 227, 0.7);
+  color: #030303;
+
+
 }

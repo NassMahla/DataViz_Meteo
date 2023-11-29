@@ -46,7 +46,6 @@ function getWeather(e) {
 
   CITY = document.querySelector("#cityName").value;
 
-
   geoCoding(CITY)
     .then(() => {
       // Use lat and lon values here
@@ -63,17 +62,23 @@ function getWeather(e) {
           document.querySelector(".meteoBox").innerHTML = `
         <div>
         </div>
-        <div class="cityInfos">
-          <h1>${data.name}</h1>
-          <p>Température: ${data.main.temp_min}</p>
-          <p>Humidité: ${data.main.humidity}</p>
-          <p>Vent: ${data.wind.speed}</p>
-          ${rainCheck}
-        </div > `
+
+        <div class="cityHeader">
+        <h1>${data.name}
+        <img class="icon" src='https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png'></img>
+        </h1>
+        </div>
+      <div class="cityMeteo">
+      <p>${data.weather[0].description}</p>  
+      <p>Température: ${data.main.temp_min} || Humidité: ${data.main.humidity}</p>
+        <p>Vent: ${data.wind.speed}</p>
+        <p>Précipitations: ${rainCheck}</p>
+      </div>`;
 
           let humidity = data.main.humidity
           let wind = data.wind.speed
           let temp = data.main.temp_min
+          let pluie = data.rain
 
           const ctx = document.getElementById('myChart');
 
@@ -82,10 +87,10 @@ function getWeather(e) {
           myChart = ctx.innerHTML = new Chart(ctx, {
             type: 'bar',
             data: {
-              labels: ['temp', 'Humidity', 'wind'],
+              labels: ['temp', 'Humidity', 'wind', 'précipitation'],
               datasets: [{
-                label: '# of Votes',
-                data: [temp, humidity, wind],
+                label: 'valeurs météorologiques',
+                data: [temp, humidity, wind, pluie],
                 borderWidth: 1
               }]
             },
